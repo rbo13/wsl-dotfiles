@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+if [ -f $HOME/gitstatus/gitstatus.prompt.sh ]; then
+	. $HOME/gitstatus/gitstatus.prompt.sh
+fi
