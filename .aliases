@@ -45,6 +45,7 @@ alias gco="g checkout"
 # Misc
 alias cls="clear"
 alias cs="cls"
+alias top="htop"
 
 # mv, rm, cp
 alias mv='mv -v'
