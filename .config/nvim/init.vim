@@ -19,7 +19,7 @@ Plug 'scrooloose/syntastic'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'ap/vim-buftabline'
 Plug '/usr/local/opt/fzf'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'ggreer/the_silver_searcher'
@@ -36,6 +36,8 @@ Plug 'natebosch/vim-lsc'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'rust-lang/rust.vim'
 Plug 'jelera/vim-javascript-syntax'
+Plug 'iloginow/vim-stylus'
+Plug 'storyn26383/vim-vue'
 " End: Language Plugins
 
 " Tools: Debugger/Linter/Syntax-Highlighting
@@ -288,6 +290,7 @@ let NERDTreeShowHidden=1      " Show hidden files when toggling NerdTree
 " Ale
 let g:ale_linters = {
 			\   'go': ['gopls', 'golint', 'go vet'],
+      \   'javascript': ['eslint'],
 			\ }
 
 let g:ale_sign_error = 'X'
@@ -297,7 +300,7 @@ let g:ale_sign_warning = '?'
 let g:ackprg = 'ag --nogroup --nocolor --column'
 
 " fzf
-nnoremap <c-p> :FZF<cr>
+nnoremap <C-p> :FZF<CR>
 
 " Lightline
 let g:lightline = {}
@@ -325,6 +328,15 @@ let g:lightline.active = { 'right': [[ 'fileformat', 'fileencoding', 'percent', 
 let g:lightline.component_function = {
       \     'gitbranch': 'fugitive#head',
       \ }
+
+"----------------------------------------------
+"
+" Plugin: 'ctrlpvim/ctrlp.vim'
+"----------------------------------------------
+" Note: We are not using CtrlP much in this configuration. But vim-go depends
+" on it to run GoDecls(Dir).
+" Disable the CtrlP mapping, since we want to use FZF instead for <c-p>.
+let g:ctrlp_map = ''
 
 " Open Ag
 nnoremap <leader>a :Ag<space>
