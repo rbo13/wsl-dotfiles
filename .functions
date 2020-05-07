@@ -9,6 +9,10 @@ function rbo13() {
 	cd $HOME/Projects/dev/go/src/github.com/rbo13
 }
 
+function sizeof() {
+  sudo du -shc $1
+}
+
 function miniserve() {
   if [ -f ./bin/miniserve-linux-x86_64 ]; then
     ./bin/miniserve-linux-x86_64
