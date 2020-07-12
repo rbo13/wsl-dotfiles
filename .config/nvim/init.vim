@@ -46,21 +46,23 @@ Plug 'w0rp/ale'
 " End: Tools
 
 " Editor Theme
-Plug 'ajmwagar/vim-deus'
+" Plug 'ajmwagar/vim-deus'
+Plug 'chriskempson/base16-vim'
 " End: Editor Theme
 
 call plug#end()
 " End `vim-plug`
 
 " Load Theme
+let base16colorspace=256 " Access colors present in 256 colorspace
 set t_Co=256
 set termguicolors
 
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set background=dark
-colorscheme deus
-let g:deus_termcolors=256
+" colorscheme deus " old colorscheme
+" let g:deus_termcolors=256
 " End: Theme Loaded
 
 
