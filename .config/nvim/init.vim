@@ -29,14 +29,19 @@ Plug 'airblade/vim-gitgutter'
 
 " Code Completion Engine/Intellisense
 " Note: LSP must be installed first
-Plug 'natebosch/vim-lsc'
+" Plug 'natebosch/vim-lsc'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'mattn/vim-lsp-settings'
+Plug 'prabirshrestha/asyncomplete-gocode.vim'
 " End: Code Completion Plugin
 
 " Language Specific Plugins
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'rust-lang/rust.vim'
-Plug 'jelera/vim-javascript-syntax'
 Plug 'iloginow/vim-stylus'
+Plug 'pangloss/vim-javascript'
 Plug 'storyn26383/vim-vue'
 " End: Language Plugins
 
@@ -54,14 +59,15 @@ call plug#end()
 " End `vim-plug`
 
 " Load Theme
-let base16colorspace=256 " Access colors present in 256 colorspace
+let base16colorspace=256
 set t_Co=256
 set termguicolors
 
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-set background=dark
-" colorscheme deus " old colorscheme
+" set background=dark
+" colorscheme deus
+colorscheme base16-default-dark
 " let g:deus_termcolors=256
 " End: Theme Loaded
 
@@ -138,7 +144,9 @@ endif
 
 set scrolloff=5
 
-set completeopt+=preview
+" set completeopt+=preview
+let g:asyncomplete_auto_completeopt = 0
+set completeopt=menuone,noinsert,noselect,preview
 set shortmess=aAItW
 set shortmess-=F
 set noshowmode
@@ -274,17 +282,37 @@ endfunction
 " ----------------------------------------------------------------------
 " | Plugin Settings                                                     |
 " ----------------------------------------------------------------------
+" prabirshrestha/asyncomplete.vim
+
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr>    pumvisible() ? "\<C-y>" : "\<cr>"
+
+" Force refresh completion
+imap <c-space> <Plug>(asyncomplete_force_refresh)
+
+" auto close preview when complete is done
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+
+" Register lsp servers
+call asyncomplete#register_source(asyncomplete#sources#gocode#get_source_options({
+    \ 'name': 'gocode',
+    \ 'whitelist': ['go'],
+    \ 'completor': function('asyncomplete#sources#gocode#completor'),
+    \ 'config': {
+    \    'gocode_path': expand('~/Projects/dev/go/bin/gocode')
+    \  },
+    \ }))
 
 " natebosch/vim-lsc
-autocmd CompleteDone * silent! pclose
-let g:lsc_server_commands = {
-\  "go": {
-\    "command": "gopls serve",
-\    "log_level": -1,
-\    "suppress_stderr": v:true,
-\  },
-\ "javascript": "typescript-language-server --stdio",
-\ }
+" autocmd CompleteDone * silent! pclose
+" let g:lsc_server_commands = {
+" \  "go": {
+" \    "command": "gopls serve",
+" \    "log_level": -1,
+" \    "suppress_stderr": v:true,
+" \  },
+" \ "javascript": "typescript-language-server --stdio",
+" \ }
 
 " NerdTree
 let NERDTreeShowHidden=1      " Show hidden files when toggling NerdTree
